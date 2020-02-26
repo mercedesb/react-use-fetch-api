@@ -1,3 +1,8 @@
+const GET = "GET";
+const POST = "POST";
+const PUT = "PUT";
+const DEL = "DEL";
+
 async function fetchData(url, method, data) {
   const response = await fetch(url, {
     method: method,
