@@ -104,7 +104,6 @@ export default function InterestingComponent() {
 The `useApi` hook can also take an onUnauthorized custom error handling function and an onError custom error handling function. If the API response comes back with HTTP status code 401 (Unauthorized), the useApi hook will invoke your onAuthorized handler if provided. For all other errors, the onError handler will be invoked if provided.
 
 ```
-```
 import React, { useState } from 'react'
 import useApi from 'useApi'
 
