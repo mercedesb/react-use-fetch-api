@@ -1,0 +1,9 @@
+{
+  "name": "useApi",
+  "version": "1.0.0",
+  "description": "React hook for making simple JSON API requests using the browser Fetch API",
+  "main": "index.js",
+  "author": "Mercedes Bernard",
+  "license": "MIT",
+  "private": false
+}
