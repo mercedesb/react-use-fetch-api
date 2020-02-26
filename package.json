@@ -1,6 +1,6 @@
 {
   "name": "react-use-fetch-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React hook for making simple JSON API requests using the browser Fetch API",
   "main": "index.js",
   "author": "Mercedes Bernard",
