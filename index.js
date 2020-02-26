@@ -25,7 +25,7 @@ async function fetchData(url, method, data) {
 
 export function useApi(onUnauthorized, onError) {
   const unauthorizedHandler = err => {
-    if (err.message === "401") {
+    if (err.message === "401" && !!onUnauthorized) {
       onUnauthorized(err);
     } else {
       throw err;
