@@ -1,5 +1,5 @@
 {
-  "name": "useApi",
+  "name": "use-api",
   "version": "1.0.0",
   "description": "React hook for making simple JSON API requests using the browser Fetch API",
   "main": "index.js",
