@@ -1,4 +1,4 @@
-# use-api
+# react-use-fetch-api
 An npm package that provides a React hook for making simple JSON API requests using the browser Fetch API
 
 ## Usage
