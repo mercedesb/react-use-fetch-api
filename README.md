@@ -8,7 +8,7 @@ The `useApi` React hook gives you access to 4 functions, `get`, `post`, `put`, a
 #### GET
 ```
 import React, { useState } from 'react'
-import useApi from 'useApi'
+import useApi from 'react-use-fetch-api'
 
 export default function InterestingComponent() {
   const { get } = useApi()
@@ -29,7 +29,7 @@ export default function InterestingComponent() {
 #### POST
 ```
 import React from 'react'
-import useApi from 'useApi'
+import useApi from 'react-use-fetch-api'
 
 export default function InterestingComponent() {
   const { post } = useApi()
@@ -56,7 +56,7 @@ export default function InterestingComponent() {
 #### PUT
 ```
 import React from 'react'
-import useApi from 'useApi'
+import useApi from 'react-use-fetch-api'
 
 export default function InterestingComponent() {
   const { put } = useApi()
@@ -83,7 +83,7 @@ export default function InterestingComponent() {
 #### DEL
 ```
 import React from 'react'
-import useApi from 'useApi'
+import useApi from 'react-use-fetch-api'
 
 export default function InterestingComponent() {
   const { del } = useApi()
@@ -105,7 +105,7 @@ The `useApi` hook can also take an onUnauthorized custom error handling function
 
 ```
 import React, { useState } from 'react'
-import useApi from 'useApi'
+import useApi from 'react-use-fetch-api'
 
 export default function InterestingComponent() {
   // you could also be fancy and create your own custom hooks for your error handling 😉
@@ -133,4 +133,4 @@ export default function InterestingComponent() {
 ```
 
 ## Technologies used
-- [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) - 
+- [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
