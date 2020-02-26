@@ -4,7 +4,8 @@ async function fetchData(url, method, data) {
     body: !!data ? JSON.stringify(data) : null,
     headers: {
       "Content-Type": "application/json",
-      Accept: "application/json"
+      Accept: "application/json",
+      "Access-Control-Allow-Origin": origin
     }
   })
     .then(response => {
