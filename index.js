@@ -20,29 +20,30 @@ async function fetchData(url, method, data) {
 }
 
 export function useApi(onUnauthorized, onError) {
-  const defaultErrorHandler = err => {
-    throw err;
+  const unauthorizedHandler = err => {
+    if (err.message === "401") {
+      onUnauthorized(err);
+    } else {
+      throw err;
+    }
   };
-
-  if (!onUnauthorized) onUnauthorized = defaultErrorHandler;
-  if (!onError) onError = defaultErrorHandler;
 
   return {
     get: path =>
       fetchData(path, GET, null)
-        .catch(onUnauthorized)
+        .catch(unauthorizedHandler)
         .catch(onError),
     post: (path, data) =>
       fetchData(path, POST, data)
-        .catch(onUnauthorized)
+        .catch(unauthorizedHandler)
         .catch(onError),
     put: (path, data) =>
       fetchData(path, PUT, data)
-        .catch(onUnauthorized)
+        .catch(unauthorizedHandler)
         .catch(onError),
     del: path =>
       fetchData(path, DEL, null)
-        .catch(onUnauthorized)
+        .catch(unauthorizedHandler)
         .catch(onError)
   };
 }
