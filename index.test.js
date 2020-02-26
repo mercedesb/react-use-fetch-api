@@ -13,8 +13,7 @@ let mockResponse = {};
 let mockJsonPromise = Promise.resolve(mockResponse);
 let mockFetchPromise;
 
-afterEach(() => {
-  global.fetch.mockClear();
+afterAll(() => {
   delete global.fetch;
 });
 
@@ -33,10 +32,14 @@ describe("useApi", () => {
       global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
     });
 
-    it("calls fetch with the expected parameters", done => {
+    it("returns the expected response", () => {
       const { get } = useApi();
-      get(url);
+      expect(get(url)).resolves.toEqual(mockResponse);
+    });
 
+    it("calls fetch with the expected parameters", async done => {
+      const { get } = useApi();
+      await get(url);
       expect(global.fetch).toHaveBeenCalledWith(
         url,
         expect.objectContaining({
@@ -88,10 +91,10 @@ describe("useApi", () => {
         });
 
         xdescribe("with an onUnauthorized handler passed in", () => {
-          it("calls the unauthorizedHandler", async () => {
+          it("calls the unauthorizedHandler", () => {
             const onUnauthorized = jest.fn;
             const { get } = useApi(onUnauthorized);
-            await get(url);
+            get(url);
             expect(onUnauthorized).toHaveBeenCalled();
           });
         });
@@ -136,9 +139,14 @@ describe("useApi", () => {
       global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
     });
 
-    it("calls fetch with the expected parameters", done => {
+    it("returns the expected response", () => {
       const { post } = useApi();
-      post(url, data);
+      expect(post(url, data)).resolves.toEqual(mockResponse);
+    });
+
+    it("calls fetch with the expected parameters", async done => {
+      const { post } = useApi();
+      await post(url, data);
 
       expect(global.fetch).toHaveBeenCalledWith(
         url,
@@ -192,10 +200,10 @@ describe("useApi", () => {
         });
 
         xdescribe("with an onUnauthorized handler passed in", () => {
-          it("calls the unauthorizedHandler", async () => {
+          it("calls the unauthorizedHandler", () => {
             const onUnauthorized = jest.fn;
             const { post } = useApi(onUnauthorized);
-            await post(url, data);
+            post(url, data);
             expect(onUnauthorized).toHaveBeenCalled();
           });
         });
@@ -240,9 +248,14 @@ describe("useApi", () => {
       global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
     });
 
-    it("calls fetch with the expected parameters", done => {
+    it("returns the expected response", () => {
       const { put } = useApi();
-      put(url, data);
+      expect(put(url, data)).resolves.toEqual(mockResponse);
+    });
+
+    it("calls fetch with the expected parameters", async done => {
+      const { put } = useApi();
+      await put(url, data);
 
       expect(global.fetch).toHaveBeenCalledWith(
         url,
@@ -296,10 +309,10 @@ describe("useApi", () => {
         });
 
         xdescribe("with an onUnauthorized handler passed in", () => {
-          it("calls the unauthorizedHandler", async () => {
+          it("calls the unauthorizedHandler", () => {
             const onUnauthorized = jest.fn;
             const { put } = useApi(onUnauthorized);
-            await put(url, data);
+            put(url, data);
             expect(onUnauthorized).toHaveBeenCalled();
           });
         });
@@ -343,9 +356,14 @@ describe("useApi", () => {
       global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
     });
 
-    it("calls fetch with the expected parameters", done => {
+    it("returns the expected response", () => {
       const { del } = useApi();
-      del(url);
+      expect(del(url)).resolves.toEqual(mockResponse);
+    });
+
+    it("calls fetch with the expected parameters", async done => {
+      const { del } = useApi();
+      await del(url);
 
       expect(global.fetch).toHaveBeenCalledWith(
         url,
@@ -398,10 +416,10 @@ describe("useApi", () => {
         });
 
         xdescribe("with an onUnauthorized handler passed in", () => {
-          it("calls the unauthorizedHandler", async () => {
+          it("calls the unauthorizedHandler", () => {
             const onUnauthorized = jest.fn;
             const { del } = useApi(onUnauthorized);
-            await del(url);
+            del(url);
             expect(onUnauthorized).toHaveBeenCalled();
           });
         });
