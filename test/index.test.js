@@ -1,4 +1,4 @@
-import { useApi } from "./index";
+import { useApi } from "../src/index";
 
 let headers = {
   "Content-Type": "application/json",
