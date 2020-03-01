@@ -368,7 +368,7 @@ describe("useApi", () => {
       expect(global.fetch).toHaveBeenCalledWith(
         url,
         expect.objectContaining({
-          method: "DEL",
+          method: "DELETE",
           body: null,
           headers: headers
         })

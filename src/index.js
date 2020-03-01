@@ -1,7 +1,7 @@
 const GET = "GET";
 const POST = "POST";
 const PUT = "PUT";
-const DEL = "DEL";
+const DEL = "DELETE";
 
 async function fetchData(url, method, data) {
   const response = await fetch(url, {
