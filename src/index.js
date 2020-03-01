@@ -18,7 +18,13 @@ async function fetchData(url, method, data) {
       }
       return response;
     })
-    .then(response => response.json());
+    .then(response => {
+      if (response.status === 204) {
+        return {};
+      } else {
+        return response.json();
+      }
+    });
 
   return response;
 }

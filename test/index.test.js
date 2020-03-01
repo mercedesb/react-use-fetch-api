@@ -9,7 +9,7 @@ let url;
 let data;
 let status;
 let ok;
-let mockResponse = {};
+let mockResponse = { data: "here" };
 let mockJsonPromise = Promise.resolve(mockResponse);
 let mockFetchPromise;
 
@@ -56,14 +56,40 @@ describe("useApi", () => {
     });
 
     describe("when the response is successful", () => {
-      it("returns the response as json", done => {
-        const { get } = useApi();
-        const response = get(url);
-        expect(response).toEqual(mockJsonPromise);
+      describe("when the status code is 204 No Content", () => {
+        beforeEach(() => {
+          status = 204;
+          mockFetchPromise = Promise.resolve({
+            status: status,
+            ok: ok,
+            json: () => Promise.resolve({})
+          });
 
-        process.nextTick(() => {
-          global.fetch.mockClear();
-          done();
+          global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+        });
+
+        it("returns an empty json object", done => {
+          const { get } = useApi();
+          const response = get(url);
+          expect(response).toEqual(Promise.resolve({}));
+
+          process.nextTick(() => {
+            global.fetch.mockClear();
+            done();
+          });
+        });
+      });
+
+      describe("when the status code is any other successful status", () => {
+        it("returns the response as json", done => {
+          const { get } = useApi();
+          const response = get(url);
+          expect(response).toEqual(mockJsonPromise);
+
+          process.nextTick(() => {
+            global.fetch.mockClear();
+            done();
+          });
         });
       });
     });
@@ -71,7 +97,6 @@ describe("useApi", () => {
     describe("when the response is not successful", () => {
       describe("when the status code is 401 Unauthorized", () => {
         beforeEach(() => {
-          url = "https://jsonplaceholder.typicode.com/todos/1";
           status = 401;
           ok = false;
           mockFetchPromise = Promise.resolve({
@@ -102,7 +127,6 @@ describe("useApi", () => {
 
       describe("when the status code is any other error ", () => {
         beforeEach(() => {
-          url = "https://jsonplaceholder.typicode.com/todos/1";
           status = 500;
           ok = false;
           mockFetchPromise = Promise.resolve({
@@ -164,14 +188,40 @@ describe("useApi", () => {
     });
 
     describe("when the response is successful", () => {
-      it("returns the response as json", done => {
-        const { post } = useApi();
-        const response = post(url, data);
-        expect(response).toEqual(mockJsonPromise);
+      describe("when the status code is 204 No Content", () => {
+        beforeEach(() => {
+          status = 204;
+          mockFetchPromise = Promise.resolve({
+            status: status,
+            ok: ok,
+            json: () => Promise.resolve({})
+          });
 
-        process.nextTick(() => {
-          global.fetch.mockClear();
-          done();
+          global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+        });
+
+        it("returns an empty json object", done => {
+          const { post } = useApi();
+          const response = post(url, data);
+          expect(response).toEqual(Promise.resolve({}));
+
+          process.nextTick(() => {
+            global.fetch.mockClear();
+            done();
+          });
+        });
+      });
+
+      describe("when the status code is any other successful status", () => {
+        it("returns the response as json", done => {
+          const { post } = useApi();
+          const response = post(url, data);
+          expect(response).toEqual(mockJsonPromise);
+
+          process.nextTick(() => {
+            global.fetch.mockClear();
+            done();
+          });
         });
       });
     });
@@ -179,7 +229,6 @@ describe("useApi", () => {
     describe("when the response is not successful", () => {
       describe("when the status code is 401 Unauthorized", () => {
         beforeEach(() => {
-          url = "https://jsonplaceholder.typicode.com/todos";
           data = { title: "Gotta do all the things!", completed: false };
           status = 401;
           ok = false;
@@ -211,7 +260,6 @@ describe("useApi", () => {
 
       describe("when the status code is any other error ", () => {
         beforeEach(() => {
-          url = "https://jsonplaceholder.typicode.com/todos";
           status = 500;
           ok = false;
           mockFetchPromise = Promise.resolve({
@@ -273,14 +321,40 @@ describe("useApi", () => {
     });
 
     describe("when the response is successful", () => {
-      it("returns the response as json", done => {
-        const { put } = useApi();
-        const response = put(url, data);
-        expect(response).toEqual(mockJsonPromise);
+      describe("when the status code is 204 No Content", () => {
+        beforeEach(() => {
+          status = 204;
+          mockFetchPromise = Promise.resolve({
+            status: status,
+            ok: ok,
+            json: () => Promise.resolve({})
+          });
 
-        process.nextTick(() => {
-          global.fetch.mockClear();
-          done();
+          global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+        });
+
+        it("returns an empty json object", done => {
+          const { put } = useApi();
+          const response = put(url, data);
+          expect(response).toEqual(Promise.resolve({}));
+
+          process.nextTick(() => {
+            global.fetch.mockClear();
+            done();
+          });
+        });
+      });
+
+      describe("when the status code is any other successful status", () => {
+        it("returns the response as json", done => {
+          const { put } = useApi();
+          const response = put(url, data);
+          expect(response).toEqual(mockJsonPromise);
+
+          process.nextTick(() => {
+            global.fetch.mockClear();
+            done();
+          });
         });
       });
     });
@@ -288,7 +362,6 @@ describe("useApi", () => {
     describe("when the response is not successful", () => {
       describe("when the status code is 401 Unauthorized", () => {
         beforeEach(() => {
-          url = "https://jsonplaceholder.typicode.com/todos";
           data = { title: "Gotta do all the things!", completed: false };
           status = 401;
           ok = false;
@@ -320,7 +393,6 @@ describe("useApi", () => {
 
       describe("when the status code is any other error ", () => {
         beforeEach(() => {
-          url = "https://jsonplaceholder.typicode.com/todos";
           status = 500;
           ok = false;
           mockFetchPromise = Promise.resolve({
@@ -381,14 +453,40 @@ describe("useApi", () => {
     });
 
     describe("when the response is successful", () => {
-      it("returns the response as json", done => {
-        const { del } = useApi();
-        const response = del(url);
-        expect(response).toEqual(mockJsonPromise);
+      describe("when the status code is 204 No Content", () => {
+        beforeEach(() => {
+          status = 204;
+          mockFetchPromise = Promise.resolve({
+            status: status,
+            ok: ok,
+            json: () => Promise.resolve({})
+          });
 
-        process.nextTick(() => {
-          global.fetch.mockClear();
-          done();
+          global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+        });
+
+        it("returns an empty json object", done => {
+          const { del } = useApi();
+          const response = del(url);
+          expect(response).toEqual(Promise.resolve({}));
+
+          process.nextTick(() => {
+            global.fetch.mockClear();
+            done();
+          });
+        });
+      });
+
+      describe("when the status code is any other successful status", () => {
+        it("returns the response as json", done => {
+          const { del } = useApi();
+          const response = del(url);
+          expect(response).toEqual(mockJsonPromise);
+
+          process.nextTick(() => {
+            global.fetch.mockClear();
+            done();
+          });
         });
       });
     });
@@ -396,7 +494,6 @@ describe("useApi", () => {
     describe("when the response is not successful", () => {
       describe("when the status code is 401 Unauthorized", () => {
         beforeEach(() => {
-          url = "https://jsonplaceholder.typicode.com/todos/1";
           status = 401;
           ok = false;
           mockFetchPromise = Promise.resolve({
@@ -427,7 +524,6 @@ describe("useApi", () => {
 
       describe("when the status code is any other error ", () => {
         beforeEach(() => {
-          url = "https://jsonplaceholder.typicode.com/todos/1";
           status = 500;
           ok = false;
           mockFetchPromise = Promise.resolve({
