@@ -43,7 +43,7 @@ export default function InterestingComponent() {
     completed: false
   }
 
-    post('https://jsonplaceholder.typicode.com/todos', {data: newTodo}).then(data => {
+    post('https://jsonplaceholder.typicode.com/todos', newTodo).then(data => {
       // do something here like redirect the user or show a message or something
     })
   }
@@ -69,7 +69,7 @@ export default function InterestingComponent() {
       completed: false
     }
     
-    post('https://jsonplaceholder.typicode.com/todos/1', {data: updatedTodo}).then(data => {
+    post('https://jsonplaceholder.typicode.com/todos/1', updatedTodo).then(data => {
       // do something here like redirect the user or show a message or something
     })
   }
@@ -115,13 +115,27 @@ To use custom headers:
 ```js
 const customHeaders = {"Content-Language": "de-DE"}
 
-get('https://jsonplaceholder.typicode.com/todos/1', {headers: customHeaders})
+get('https://jsonplaceholder.typicode.com/todos/1', customHeaders)
 
-post('https://jsonplaceholder.typicode.com/todos/1', {data: newTodo, headers: customHeaders})
+post('https://jsonplaceholder.typicode.com/todos/1', newTodo, customHeaders)
 
-put('https://jsonplaceholder.typicode.com/todos/1', {data: updatedTodo, headers: customHeaders})
+put('https://jsonplaceholder.typicode.com/todos/1', updatedTodo, customHeaders)
 
-del('https://jsonplaceholder.typicode.com/todos/1', {headers: customHeaders})
+del('https://jsonplaceholder.typicode.com/todos/1', customHeaders)
+
+```
+
+To use custom headers with no data:
+```js
+const customHeaders = {"Content-Language": "de-DE"}
+
+get('https://jsonplaceholder.typicode.com/todos/1', customHeaders)
+
+post('https://jsonplaceholder.typicode.com/todos/1', null, customHeaders)
+
+put('https://jsonplaceholder.typicode.com/todos/1', null, customHeaders)
+
+del('https://jsonplaceholder.typicode.com/todos/1', customHeaders)
 
 ```
 

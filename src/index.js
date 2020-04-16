@@ -8,8 +8,8 @@ const defaultHeaders = {
   Accept: "application/json"
 }
 
-async function fetchData(url, method, {data, headers}) {
-  const response = await fetch(url, {
+async function fetchData({path, method, data, headers}) {
+  const response = await fetch(path, {
     method: method,
     body: !!data ? JSON.stringify(data) : null,
     headers: !!headers ? headers : defaultHeaders
@@ -42,19 +42,19 @@ export function useApi(onUnauthorized, onError) {
 
   return {
     get: (path, headers) =>
-      fetchData(path, GET, {headers: headers})
+      fetchData({path: path, method: GET, headers: headers})
         .catch(unauthorizedHandler)
         .catch(onError),
     post: (path, data, headers) =>
-      fetchData(path, POST, {data: data, headers: headers})
+      fetchData({path: path, method: POST, data: data, headers: headers})
         .catch(unauthorizedHandler)
         .catch(onError),
     put: (path, data, headers) =>
-      fetchData(path, PUT, {data: data, headers: headers})
+      fetchData({path: path, method: PUT, data: data, headers: headers})
         .catch(unauthorizedHandler)
         .catch(onError),
     del: (path, headers) =>
-      fetchData(path, DEL, {headers: headers})
+      fetchData({path: path, method: DEL, headers: headers})
         .catch(unauthorizedHandler)
         .catch(onError)
   };
