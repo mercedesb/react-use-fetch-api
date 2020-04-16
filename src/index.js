@@ -3,14 +3,16 @@ const POST = "POST";
 const PUT = "PUT";
 const DEL = "DELETE";
 
-async function fetchData(url, method, data) {
+const defaultHeaders = {
+  "Content-Type": "application/json",
+  Accept: "application/json"
+}
+
+async function fetchData(url, method, data, headers) {
   const response = await fetch(url, {
     method: method,
     body: !!data ? JSON.stringify(data) : null,
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json"
-    }
+    headers: !!headers ? headers : defaultHeaders
   })
     .then(response => {
       if (!response.ok) {
@@ -39,20 +41,20 @@ export function useApi(onUnauthorized, onError) {
   };
 
   return {
-    get: path =>
-      fetchData(path, GET, null)
+    get: (path, headers) =>
+      fetchData(path, GET, null, headers)
         .catch(unauthorizedHandler)
         .catch(onError),
-    post: (path, data) =>
-      fetchData(path, POST, data)
+    post: (path, data, headers) =>
+      fetchData(path, POST, data, headers)
         .catch(unauthorizedHandler)
         .catch(onError),
-    put: (path, data) =>
-      fetchData(path, PUT, data)
+    put: (path, data, headers) =>
+      fetchData(path, PUT, data, headers)
         .catch(unauthorizedHandler)
         .catch(onError),
-    del: path =>
-      fetchData(path, DEL, null)
+    del: (path, headers) =>
+      fetchData(path, DEL, null, headers)
         .catch(unauthorizedHandler)
         .catch(onError)
   };
