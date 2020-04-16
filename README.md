@@ -8,7 +8,7 @@ A common pattern is to destructure the return value, naming only which function 
 
 ### Simple use cases
 #### GET
-```
+```js
 import React, { useState } from 'react'
 import useApi from 'react-use-fetch-api'
 
@@ -29,7 +29,7 @@ export default function InterestingComponent() {
 ```
 
 #### POST
-```
+```js
 import React from 'react'
 import useApi from 'react-use-fetch-api'
 
@@ -39,12 +39,11 @@ export default function InterestingComponent() {
   const onSubmit = () => {
     const newTodo = {
     userId: 1,
-    id: 2,
     title: "Gotta do all the things!",
     completed: false
   }
 
-    post('https://jsonplaceholder.typicode.com/todos', newTodo).then(data => {
+    post('https://jsonplaceholder.typicode.com/todos', {data: newTodo}).then(data => {
       // do something here like redirect the user or show a message or something
     })
   }
@@ -56,7 +55,7 @@ export default function InterestingComponent() {
 ```
 
 #### PUT
-```
+```js
 import React from 'react'
 import useApi from 'react-use-fetch-api'
 
@@ -66,12 +65,11 @@ export default function InterestingComponent() {
   const onSubmit = () => {
     const updatedTodo = {
       userId: 1,
-      id: 2,
       title: "Gotta do all the things!",
       completed: false
     }
     
-    post('https://jsonplaceholder.typicode.com/todos', updatedTodo).then(data => {
+    post('https://jsonplaceholder.typicode.com/todos/1', {data: updatedTodo}).then(data => {
       // do something here like redirect the user or show a message or something
     })
   }
@@ -83,7 +81,7 @@ export default function InterestingComponent() {
 ```
 
 #### DEL
-```
+```js
 import React from 'react'
 import useApi from 'react-use-fetch-api'
 
@@ -102,6 +100,31 @@ export default function InterestingComponent() {
 }
 ```
 
+### Custom headers
+
+All functions accept `data` and `headers` as optional parameters.  If you don't pass custom headers, the default will be:
+
+```js
+{
+  "Content-Type": "application/json",
+  Accept: "application/json"
+}
+```
+
+To use custom headers:
+```js
+const customHeaders = {"Content-Language": "de-DE"}
+
+get('https://jsonplaceholder.typicode.com/todos/1', {headers: customHeaders})
+
+post('https://jsonplaceholder.typicode.com/todos/1', {data: newTodo, headers: customHeaders})
+
+put('https://jsonplaceholder.typicode.com/todos/1', {data: updatedTodo, headers: customHeaders})
+
+del('https://jsonplaceholder.typicode.com/todos/1', {headers: customHeaders})
+
+```
+
 ### Error handling
 The `useApi` hook also allows you to gracefully handle error states.
 
@@ -111,7 +134,7 @@ If the API response comes back with HTTP status code 401 (Unauthorized), the use
 
 For all other errors, the onError handler will be invoked if provided.
 
-```
+```js
 import React, { useState } from 'react'
 import useApi from 'react-use-fetch-api'
 
@@ -139,7 +162,7 @@ The `useApi` hook can be easily mocked in tests. The following code uses Jest's 
 
 You may want to test or use the return value of the `useApi` hook in an assertion.
 
-```
+```js
 import { mount } from 'enzyme'
 import * as useApiModule from 'react-use-fetch-api'
 // ... other imports as needed
@@ -169,7 +192,7 @@ describe('InterestingComponent', () => {
 
 If you are making a request after the user interacts with the component (button click, form submission, etc), you may want to check that the handler had been called with the expected parameters. 
 
-```
+```js
 import { mount } from 'enzyme'
 import * as useApiModule from 'react-use-fetch-api'
 // ... other imports as needed
