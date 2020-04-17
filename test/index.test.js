@@ -1,9 +1,14 @@
 import { useApi } from "../src/index";
 
-let headers = {
+let defaultHeaders = {
   "Content-Type": "application/json",
   Accept: "application/json"
 };
+
+let customHeaders = {
+  "Content-Language": "de-DE",
+  "Date": "Wed, 21 Oct 2015 07:28:00 GMT"
+}
 
 let url;
 let data;
@@ -45,7 +50,25 @@ describe("useApi", () => {
         expect.objectContaining({
           method: "GET",
           body: null,
-          headers: headers
+          headers: defaultHeaders
+        })
+      );
+
+      process.nextTick(() => {
+        global.fetch.mockClear();
+        done();
+      });
+    });
+    
+    it("calls fetch with the custom headers", async done => {
+      const { get } = useApi();
+      await get(url, customHeaders);
+      expect(global.fetch).toHaveBeenCalledWith(
+        url,
+        expect.objectContaining({
+          method: "GET",
+          body: null,
+          headers: customHeaders
         })
       );
 
@@ -177,7 +200,26 @@ describe("useApi", () => {
         expect.objectContaining({
           method: "POST",
           body: JSON.stringify(data),
-          headers: headers
+          headers: defaultHeaders
+        })
+      );
+
+      process.nextTick(() => {
+        global.fetch.mockClear();
+        done();
+      });
+    });
+
+    it("calls fetch with the custom headers", async done => {
+      const { post } = useApi();
+      await post(url, data, customHeaders);
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        url,
+        expect.objectContaining({
+          method: "POST",
+          body: JSON.stringify(data),
+          headers: customHeaders
         })
       );
 
@@ -224,6 +266,7 @@ describe("useApi", () => {
           });
         });
       });
+
     });
 
     describe("when the response is not successful", () => {
@@ -310,7 +353,26 @@ describe("useApi", () => {
         expect.objectContaining({
           method: "PUT",
           body: JSON.stringify(data),
-          headers: headers
+          headers: defaultHeaders
+        })
+      );
+
+      process.nextTick(() => {
+        global.fetch.mockClear();
+        done();
+      });
+    });
+    
+    it("calls fetch with the custom headers", async done => {
+      const { put } = useApi();
+      await put(url, data, customHeaders);
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        url,
+        expect.objectContaining({
+          method: "PUT",
+          body: JSON.stringify(data),
+          headers: customHeaders
         })
       );
 
@@ -350,13 +412,14 @@ describe("useApi", () => {
           const { put } = useApi();
           const response = put(url, data);
           expect(response).toEqual(mockJsonPromise);
-
+          
           process.nextTick(() => {
             global.fetch.mockClear();
             done();
           });
         });
       });
+      
     });
 
     describe("when the response is not successful", () => {
@@ -442,7 +505,26 @@ describe("useApi", () => {
         expect.objectContaining({
           method: "DELETE",
           body: null,
-          headers: headers
+          headers: defaultHeaders
+        })
+      );
+
+      process.nextTick(() => {
+        global.fetch.mockClear();
+        done();
+      });
+    });
+
+    it("calls fetch with the custom headers", async done => {
+      const { del } = useApi();
+      await del(url, customHeaders);
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        url,
+        expect.objectContaining({
+          method: "DELETE",
+          body: null,
+          headers: customHeaders
         })
       );
 
@@ -489,6 +571,7 @@ describe("useApi", () => {
           });
         });
       });
+
     });
 
     describe("when the response is not successful", () => {
