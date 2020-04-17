@@ -42,7 +42,7 @@ export function useApi(onUnauthorized, onError) {
 
   return {
     get: (path, headers) =>
-      fetchData({path: path, method: GET, headers: headers})
+      fetchData({path: path, method: GET, data: null, headers: headers})
         .catch(unauthorizedHandler)
         .catch(onError),
     post: (path, data, headers) =>
@@ -54,7 +54,7 @@ export function useApi(onUnauthorized, onError) {
         .catch(unauthorizedHandler)
         .catch(onError),
     del: (path, headers) =>
-      fetchData({path: path, method: DEL, headers: headers})
+      fetchData({path: path, method: DEL, data: null, headers: headers})
         .catch(unauthorizedHandler)
         .catch(onError)
   };
