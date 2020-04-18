@@ -10,7 +10,7 @@ A common pattern is to destructure the return value, naming only which function 
 #### GET
 ```js
 import React, { useState } from 'react'
-import useApi from 'react-use-fetch-api'
+import { useApi } from 'react-use-fetch-api'
 
 export default function InterestingComponent() {
   const { get } = useApi()
@@ -31,7 +31,7 @@ export default function InterestingComponent() {
 #### POST
 ```js
 import React from 'react'
-import useApi from 'react-use-fetch-api'
+import { useApi } from 'react-use-fetch-api'
 
 export default function InterestingComponent() {
   const { post } = useApi()
@@ -57,7 +57,7 @@ export default function InterestingComponent() {
 #### PUT
 ```js
 import React from 'react'
-import useApi from 'react-use-fetch-api'
+import { useApi } from 'react-use-fetch-api'
 
 export default function InterestingComponent() {
   const { put } = useApi()
@@ -83,7 +83,7 @@ export default function InterestingComponent() {
 #### DEL
 ```js
 import React from 'react'
-import useApi from 'react-use-fetch-api'
+import { useApi } from 'react-use-fetch-api'
 
 export default function InterestingComponent() {
   const { del } = useApi()
@@ -150,7 +150,7 @@ For all other errors, the onError handler will be invoked if provided.
 
 ```js
 import React, { useState } from 'react'
-import useApi from 'react-use-fetch-api'
+import { useApi } from 'react-use-fetch-api'
 
 export default function InterestingComponent() {
   // you could also be fancy and create your own 
