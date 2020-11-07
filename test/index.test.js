@@ -538,6 +538,179 @@ describe("useApi", () => {
     });
   });
 
+  describe("patch", () => {
+    beforeEach(() => {
+      url = "https://jsonplaceholder.typicode.com/todos";
+      data = { title: "Gotta do all the things!", completed: false };
+      status = 200;
+      ok = true;
+      mockFetchPromise = Promise.resolve({
+        status: status,
+        ok: ok,
+        json: () => mockJsonPromise,
+      });
+
+      global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+    });
+
+    it("returns the expected response", () => {
+      const { patch } = useApi();
+      expect(patch(url, data)).resolves.toEqual(mockResponse);
+    });
+
+    it("calls fetch with the expected parameters", async (done) => {
+      const { patch } = useApi();
+      await patch(url, data);
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        url,
+        expect.objectContaining({
+          method: "PATCH",
+          body: JSON.stringify(data),
+          headers: defaultHeaders,
+        })
+      );
+
+      process.nextTick(() => {
+        global.fetch.mockClear();
+        done();
+      });
+    });
+
+    it("calls fetch with the custom headers", async (done) => {
+      const { patch } = useApi();
+      await patch(url, data, customHeaders);
+
+      expect(global.fetch).toHaveBeenCalledWith(
+        url,
+        expect.objectContaining({
+          method: "PATCH",
+          body: JSON.stringify(data),
+          headers: customHeaders,
+        })
+      );
+
+      process.nextTick(() => {
+        global.fetch.mockClear();
+        done();
+      });
+    });
+
+    describe("when the response is successful", () => {
+      describe("when the status code is 204 No Content", () => {
+        beforeEach(() => {
+          status = 204;
+          mockFetchPromise = Promise.resolve({
+            status: status,
+            ok: ok,
+            json: () => Promise.resolve({}),
+          });
+
+          global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+        });
+
+        it("returns an empty json object", (done) => {
+          const { patch } = useApi();
+          const response = patch(url, data);
+          expect(response).toEqual(Promise.resolve({}));
+
+          process.nextTick(() => {
+            global.fetch.mockClear();
+            done();
+          });
+        });
+      });
+
+      describe("when the status code is any other successful status", () => {
+        it("returns the response as json", (done) => {
+          const { patch } = useApi();
+          const response = patch(url, data);
+          expect(response).toEqual(mockJsonPromise);
+
+          process.nextTick(() => {
+            global.fetch.mockClear();
+            done();
+          });
+        });
+      });
+    });
+
+    describe("when the response is not successful", () => {
+      describe("when the status code is 401 Unauthorized", () => {
+        beforeEach(() => {
+          data = { title: "Gotta do all the things!", completed: false };
+          status = 401;
+          ok = false;
+          mockFetchPromise = Promise.resolve({
+            status: status,
+            ok: ok,
+            json: () => mockJsonPromise,
+          });
+
+          global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+        });
+
+        describe("without an onUnauthorized handler passed in", () => {
+          it("returns the response as json", (done) => {
+            const { patch } = useApi();
+            const response = patch(url, data);
+            expect(response).toEqual(mockJsonPromise);
+
+            process.nextTick(() => {
+              global.fetch.mockClear();
+              done();
+            });
+          });
+        });
+
+        describe("with an onUnauthorized handler passed in", () => {
+          it("calls the onUnauthorized", async () => {
+            const onUnauthorized = jest.fn();
+            const { patch } = useApi(onUnauthorized);
+            await patch(url, data);
+            expect(onUnauthorized).toHaveBeenCalled();
+          });
+        });
+      });
+
+      describe("when the status code is any other error ", () => {
+        beforeEach(() => {
+          status = 500;
+          ok = false;
+          mockFetchPromise = Promise.resolve({
+            status: status,
+            ok: ok,
+            json: () => mockJsonPromise,
+          });
+
+          global.fetch = jest.fn().mockImplementation(() => mockFetchPromise);
+        });
+
+        describe("without an onError handler passed in", () => {
+          it("returns the response as json", (done) => {
+            const { patch } = useApi();
+            const response = patch(url, data);
+            expect(response).toEqual(mockJsonPromise);
+
+            process.nextTick(() => {
+              global.fetch.mockClear();
+              done();
+            });
+          });
+
+          describe("with an onError handler passed in", () => {
+            it("calls the onError", async () => {
+              const onError = jest.fn();
+              const { patch } = useApi(null, onError);
+              await patch(url, data);
+              expect(onError).toHaveBeenCalled();
+            });
+          });
+        });
+      });
+    });
+  });
+
   describe("del", () => {
     beforeEach(() => {
       url = "https://jsonplaceholder.typicode.com/todos/1";

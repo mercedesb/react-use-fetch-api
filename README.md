@@ -4,7 +4,7 @@ An npm package that provides a React hook for making simple JSON API requests us
 
 ## Usage
 
-The `useApi` React hook gives you access to 4 functions, `get`, `post`, `put`, and `del`. Simply import the hook into your component, and invoke it to return what you need.
+The `useApi` React hook gives you access to 5 functions, `get`, `post`, `put`, `patch`, and `del`. Simply import the hook into your component, and invoke it to return what you need.
 
 A common pattern is to destructure the return value, naming only which function you'll need in your component.
 
@@ -75,7 +75,34 @@ export default function InterestingComponent() {
       completed: false
     }
 
-    post('https://jsonplaceholder.typicode.com/todos/1', updatedTodo).then(data => {
+    put('https://jsonplaceholder.typicode.com/todos/1', updatedTodo).then(data => {
+      // do something here like redirect the user or show a message or something
+    })
+  }
+
+  return (
+    // render your interesting component here
+  )
+}
+```
+
+#### PATCH
+
+```js
+import React from 'react'
+import { useApi } from 'react-use-fetch-api'
+
+export default function InterestingComponent() {
+  const { patch } = useApi()
+
+  const onSubmit = () => {
+    const updatedTodo = {
+      userId: 1,
+      title: "Gotta do all the things!",
+      completed: false
+    }
+
+    patch('https://jsonplaceholder.typicode.com/todos/1', updatedTodo).then(data => {
       // do something here like redirect the user or show a message or something
     })
   }
@@ -129,6 +156,8 @@ post("https://jsonplaceholder.typicode.com/todos/1", newTodo, customHeaders);
 
 put("https://jsonplaceholder.typicode.com/todos/1", updatedTodo, customHeaders);
 
+patch("https://jsonplaceholder.typicode.com/todos/1", updatedTodo, customHeaders);
+
 del("https://jsonplaceholder.typicode.com/todos/1", customHeaders);
 ```
 
@@ -142,6 +171,8 @@ get("https://jsonplaceholder.typicode.com/todos/1", customHeaders);
 post("https://jsonplaceholder.typicode.com/todos/1", null, customHeaders);
 
 put("https://jsonplaceholder.typicode.com/todos/1", null, customHeaders);
+
+patch("https://jsonplaceholder.typicode.com/todos/1", null, customHeaders);
 
 del("https://jsonplaceholder.typicode.com/todos/1", customHeaders);
 ```
